@@ -196,27 +196,19 @@ def check_system_requirements(
         print("3. Checking ADB Keyboard...", end=" ")
         try:
             result = subprocess.run(
-                ["adb", "shell", "ime", "list", "-s"],
+                ["adb", "shell", "pm", "list", "packages","-3"],
                 capture_output=True,
                 text=True,
                 timeout=10,
             )
             ime_list = result.stdout.strip()
-
-            if "com.android.adbkeyboard/.AdbIME" in ime_list:
+            if "ca.zgrs.clipper" in ime_list:
                 print("✅ OK")
             else:
                 print("❌ FAILED")
                 print("   Error: ADB Keyboard is not installed on the device.")
                 print("   Solution:")
-                print("     1. Download ADB Keyboard APK from:")
-                print(
-                    "        https://github.com/senzhk/ADBKeyBoard/blob/master/ADBKeyboard.apk"
-                )
-                print("     2. Install it on your device: adb install ADBKeyboard.apk")
-                print(
-                    "     3. Enable it in Settings > System > Languages & Input > Virtual Keyboard"
-                )
+                print(" install clipper.apk")
                 all_passed = False
         except subprocess.TimeoutExpired:
             print("❌ FAILED")

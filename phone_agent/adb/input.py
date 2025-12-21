@@ -5,6 +5,30 @@ import subprocess
 from typing import Optional
 
 
+def start_clipper_app(device_id:str):
+    """
+    启动 Clipper 应用界面以确保服务运行
+    """
+    try:
+        cmd = ['adb']
+        if device_id:
+            cmd.extend(['-s', device_id])
+        cmd.extend(['shell', 'am', 'start', '-a', 'ca.zgrs.clipper',
+                    '-n', 'ca.zgrs.clipper/.Main'])
+
+        result = subprocess.run(cmd, capture_output=True, text=True, timeout=10)
+
+        if result.returncode == 0:
+            print("Clipper 应用已启动")
+            return True
+        else:
+            print(f"启动 Clipper 应用失败: {result.stderr}")
+            return False
+
+    except Exception as e:
+        print(f"启动 Clipper 应用时发生错误: {e}")
+        return False
+
 def type_text(text: str, device_id: str | None = None) -> None:
     """
     Type text into the currently focused input field using ADB Keyboard.
@@ -18,8 +42,7 @@ def type_text(text: str, device_id: str | None = None) -> None:
         See: https://github.com/nicnocquee/AdbKeyboard
     """
     adb_prefix = _get_adb_prefix(device_id)
-    encoded_text = base64.b64encode(text.encode("utf-8")).decode("utf-8")
-
+    start_clipper_app(device_id)
     subprocess.run(
         adb_prefix
         + [
@@ -27,14 +50,31 @@ def type_text(text: str, device_id: str | None = None) -> None:
             "am",
             "broadcast",
             "-a",
-            "ADB_INPUT_B64",
-            "--es",
-            "msg",
-            encoded_text,
+            "clipper.set",
+            "-e",
+            "text",
+            text,
         ],
         capture_output=True,
         text=True,
     )
+    subprocess.run(
+        adb_prefix
+        + ["shell",
+           "input",
+           "keyevent",
+           "KEYCODE_BACK"],
+        capture_output=True,
+        text=True)
+    subprocess.run(
+        adb_prefix+["shell",
+                    "input",
+                    "keyevent",
+                    "KEYCODE_PASTE"
+                    ],
+    capture_output=True,
+    text=True)
+
 
 
 def clear_text(device_id: str | None = None) -> None:
