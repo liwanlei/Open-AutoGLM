@@ -514,7 +514,7 @@ Examples:
     )
     parser.add_argument(
         "--record",
-        type=str,
+        action="store_true",
         help="Task to execute by record",
     )
 
