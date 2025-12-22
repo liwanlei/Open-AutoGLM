@@ -139,12 +139,11 @@ class PhoneAgent:
         self._context = []
         self._step_count = 0
 
-    def _execute_step_record(self,action: dict[str, Any] | None) -> StepResult:
+    def _execute_step_record(self,action: str | None) -> StepResult:
         device_factory = get_device_factory()
         screenshot = device_factory.get_screenshot(self.agent_config.device_id)
         action= ast.literal_eval(action)
         try:
-
             result = self.action_handler.execute(
                 action, screenshot.width, screenshot.height
             )

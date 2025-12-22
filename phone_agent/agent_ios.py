@@ -1,5 +1,5 @@
 """iOS PhoneAgent class for orchestrating iOS phone automation."""
-
+import ast
 import json
 import traceback
 from dataclasses import dataclass
@@ -160,13 +160,14 @@ class IOSPhoneAgent:
         self._context = []
         self._step_count = 0
 
-    def _execute_step_record(self, action: dict[str, Any] | None) -> StepResult:
+    def _execute_step_record(self, action: str | None) -> StepResult:
         screenshot = get_screenshot(
             wda_url=self.agent_config.wda_url,
             session_id=self.agent_config.session_id,
             device_id=self.agent_config.device_id,
         )
         try:
+            action = ast.literal_eval(action)
             result = self.action_handler.execute(
                 action, screenshot.width, screenshot.height
             )
