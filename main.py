@@ -32,7 +32,7 @@ from phone_agent.device_factory import DeviceType, get_device_factory, set_devic
 from phone_agent.model import ModelConfig
 from phone_agent.xctest import XCTestConnection
 from phone_agent.xctest import list_devices as list_ios_devices
-
+from phone_agent.until.filetool import create_txt_file,delete_txt_file
 
 def check_system_requirements(
     device_type: DeviceType = DeviceType.ADB, wda_url: str = "http://localhost:8100"
@@ -512,6 +512,12 @@ Examples:
         type=str,
         help="Task to execute (interactive mode if not provided)",
     )
+    parser.add_argument(
+        "--record",
+        type=str,
+        help="Task to execute by record",
+    )
+
 
     return parser.parse_args()
 
@@ -808,11 +814,16 @@ def main():
             print(f"Device: {devices[0].device_id} (auto-detected)")
 
     print("=" * 50)
-
+    if args.record:
+        isrecord=False
+    else:
+        delete_txt_file()
+        isrecord=True
+        create_txt_file()
     # Run with provided task or enter interactive mode
     if args.task:
         print(f"\nTask: {args.task}\n")
-        result = agent.run(args.task)
+        result = agent.run(args.task,isrecord)
         print(f"\nResult: {result}")
     else:
         # Interactive mode
@@ -830,7 +841,7 @@ def main():
                     continue
 
                 print()
-                result = agent.run(task)
+                result = agent.run(task,isrecord)
                 print(f"\nResult: {result}\n")
                 agent.reset()
 

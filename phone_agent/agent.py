@@ -1,5 +1,5 @@
 """Main PhoneAgent class for orchestrating phone automation."""
-
+import ast
 import json
 import traceback
 from dataclasses import dataclass
@@ -11,7 +11,7 @@ from phone_agent.config import get_messages, get_system_prompt
 from phone_agent.device_factory import get_device_factory
 from phone_agent.model import ModelClient, ModelConfig
 from phone_agent.model.client import MessageBuilder
-
+from phone_agent.until.filetool import append_to_txt_file,read_txt_without_newline
 
 @dataclass
 class AgentConfig:
@@ -81,7 +81,7 @@ class PhoneAgent:
         self._context: list[dict[str, Any]] = []
         self._step_count = 0
 
-    def run(self, task: str) -> str:
+    def run(self, task: str,isrecord:bool=True) -> str:
         """
         Run the agent to complete a task.
 
@@ -95,18 +95,24 @@ class PhoneAgent:
         self._step_count = 0
 
         # First step with user prompt
-        result = self._execute_step(task, is_first=True)
-
-        if result.finished:
-            return result.message or "Task completed"
-
-        # Continue until finished or max steps reached
-        while self._step_count < self.agent_config.max_steps:
-            result = self._execute_step(is_first=False)
-
+        if isrecord:
+            result = self._execute_step(task, is_first=True,isrecord=isrecord)
             if result.finished:
                 return result.message or "Task completed"
+            while self._step_count < self.agent_config.max_steps:
+                result = self._execute_step(is_first=False,isrecord=isrecord)
 
+                if result.finished:
+                    return result.message or "Task completed"
+        else:
+            print("执行回放")
+            try:
+                allaction=read_txt_without_newline()
+                for action in allaction:
+                    self._execute_step_record(action=action)
+            except Exception as e:
+                print(e)
+                print("回放执行失败")
         return "Max steps reached"
 
     def step(self, task: str | None = None) -> StepResult:
@@ -133,8 +139,32 @@ class PhoneAgent:
         self._context = []
         self._step_count = 0
 
+    def _execute_step_record(self,action: dict[str, Any] | None) -> StepResult:
+        device_factory = get_device_factory()
+        screenshot = device_factory.get_screenshot(self.agent_config.device_id)
+        action= ast.literal_eval(action)
+        try:
+
+            result = self.action_handler.execute(
+                action, screenshot.width, screenshot.height
+            )
+        except Exception as e:
+            if self.agent_config.verbose:
+                traceback.print_exc()
+            result = self.action_handler.execute(
+                finish(message=str(e)), screenshot.width, screenshot.height
+            )
+        finished = action.get("_metadata") == "finish" or result.should_finish
+        return StepResult(
+            success=result.success,
+            finished=finished,
+            action=action,
+            thinking="",
+            message=result.message or action.get("message"),
+        )
+
     def _execute_step(
-        self, user_prompt: str | None = None, is_first: bool = False
+        self, user_prompt: str | None = None, is_first: bool = False,isrecord: bool = True
     ) -> StepResult:
         """Execute a single step of the agent loop."""
         self._step_count += 1
@@ -203,7 +233,8 @@ class PhoneAgent:
 
         # Remove image from context to save space
         self._context[-1] = MessageBuilder.remove_images_from_message(self._context[-1])
-
+        if isrecord:
+            append_to_txt_file(action)
         # Execute action
         try:
             result = self.action_handler.execute(
