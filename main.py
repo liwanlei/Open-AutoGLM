@@ -30,9 +30,12 @@ from phone_agent.config.apps_harmonyos import list_supported_apps as list_harmon
 from phone_agent.config.apps_ios import list_supported_apps as list_ios_apps
 from phone_agent.device_factory import DeviceType, get_device_factory, set_device_type
 from phone_agent.model import ModelConfig
+from phone_agent.until.pathexce import pathexce
+from phone_agent.until.report import add_image_to_html_report
 from phone_agent.xctest import XCTestConnection
 from phone_agent.xctest import list_devices as list_ios_devices
 from phone_agent.until.filetool import create_txt_file,delete_txt_file
+
 
 def check_system_requirements(
     device_type: DeviceType = DeviceType.ADB, wda_url: str = "http://localhost:8100"
@@ -518,6 +521,12 @@ Examples:
         help="Task to execute by record",
     )
 
+    parser.add_argument(
+        "--report",
+        action="store_true",
+        help="Task to execute and report results",
+    )
+
 
     return parser.parse_args()
 
@@ -814,6 +823,12 @@ def main():
             print(f"Device: {devices[0].device_id} (auto-detected)")
 
     print("=" * 50)
+    if args.report:
+        save_screenshot=True
+        path=pathexce()
+    else:
+        save_screenshot=False
+        path=''
     if args.record:
         isrecord=False
     else:
@@ -823,8 +838,9 @@ def main():
     # Run with provided task or enter interactive mode
     if args.task:
         print(f"\nTask: {args.task}\n")
-        result = agent.run(args.task,isrecord)
+        result = agent.run(args.task,isrecord,save_screenshot,path)
         print(f"\nResult: {result}")
+        print(f"\n Screenshot: {path}")
     else:
         # Interactive mode
         print("\nEntering interactive mode. Type 'quit' to exit.\n")
@@ -841,8 +857,9 @@ def main():
                     continue
 
                 print()
-                result = agent.run(task,isrecord)
+                result = agent.run(task,isrecord,save_screenshot,path)
                 print(f"\nResult: {result}\n")
+
                 agent.reset()
 
             except KeyboardInterrupt:
@@ -851,6 +868,11 @@ def main():
             except Exception as e:
                 print(f"\nError: {e}\n")
 
+        print(f"\n Screenshot: {path}")
+    base_path = os.path.join(os.getcwd(), 'report')
+    report_html=os.path.join(base_path, 'report.html')
+    add_image_to_html_report(image_paths=path,output_html=report_html)
+    print(f"\n HTML report: {report_html}")
 
 if __name__ == "__main__":
     main()

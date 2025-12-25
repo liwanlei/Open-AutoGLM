@@ -26,6 +26,8 @@ def get_screenshot(
     session_id: str | None = None,
     device_id: str | None = None,
     timeout: int = 10,
+        save_screenshot:bool = False,
+            path:str="",count:int = 0
 ) -> Screenshot:
     """
     Capture a screenshot from the connected iOS device.
@@ -44,12 +46,13 @@ def get_screenshot(
         If both fail, returns a black fallback image.
     """
     # Try WebDriverAgent first (preferred method)
-    screenshot = _get_screenshot_wda(wda_url, session_id, timeout)
+    screenshot = _get_screenshot_wda(wda_url, session_id, timeout,save_screenshot=save_screenshot,
+                                     path=path,count=count)
     if screenshot:
         return screenshot
 
     # Fallback to idevicescreenshot
-    screenshot = _get_screenshot_idevice(device_id, timeout)
+    screenshot = _get_screenshot_idevice(device_id, timeout,save_screenshot,path,count)
     if screenshot:
         return screenshot
 
@@ -58,7 +61,9 @@ def get_screenshot(
 
 
 def _get_screenshot_wda(
-    wda_url: str, session_id: str | None, timeout: int
+    wda_url: str, session_id: str | None, timeout: int,
+        save_screenshot:bool,
+        path:str="",count:int = 0
 ) -> Screenshot | None:
     """
     Capture screenshot using WebDriverAgent.
@@ -87,7 +92,9 @@ def _get_screenshot_wda(
                 img_data = base64.b64decode(base64_data)
                 img = Image.open(BytesIO(img_data))
                 width, height = img.size
-
+                if save_screenshot:
+                    file=os.path.join(tempfile.gettempdir(), str(count)+".png")
+                    img.save(file)
                 return Screenshot(
                     base64_data=base64_data,
                     width=width,
@@ -104,7 +111,7 @@ def _get_screenshot_wda(
 
 
 def _get_screenshot_idevice(
-    device_id: str | None, timeout: int
+    device_id: str | None, timeout: int,save_screenshot:bool,path:str,count:int = 0
 ) -> Screenshot | None:
     """
     Capture screenshot using idevicescreenshot (libimobiledevice).
@@ -129,6 +136,15 @@ def _get_screenshot_idevice(
         result = subprocess.run(
             cmd, capture_output=True, text=True, timeout=timeout
         )
+        if save_screenshot:
+            file=os.path.join(path, f"{str(count)}.png")
+            cmd = ["idevicescreenshot"]
+            if device_id:
+                cmd.extend(["-u", device_id])
+            cmd.append(file)
+            result = subprocess.run(
+                cmd, capture_output=True, text=True, timeout=timeout
+            )
 
         if result.returncode == 0 and os.path.exists(temp_path):
             # Read and encode image

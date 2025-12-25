@@ -1,12 +1,1 @@
 {'_metadata': 'do', 'action': 'Launch', 'app': '微信'}
-{'_metadata': 'do', 'action': 'Tap', 'element': [826, 76]}
-{'_metadata': 'do', 'action': 'Type', 'text': 'lz'}
-{'_metadata': 'do', 'action': 'Tap', 'element': [499, 84]}
-{'_metadata': 'do', 'action': 'Type', 'text': 'lz'}
-{'_metadata': 'do', 'action': 'Back'}
-{'_metadata': 'do', 'action': 'Swipe', 'start': [499, 614], 'end': [499, 263]}
-{'_metadata': 'do', 'action': 'Tap', 'element': [499, 549]}
-{'_metadata': 'do', 'action': 'Tap', 'element': [499, 946]}
-{'_metadata': 'do', 'action': 'Type', 'text': '不切换输入法'}
-{'_metadata': 'do', 'action': 'Tap', 'element': [902, 946]}
-{'_metadata': 'finish', 'message': '任务已完成！我已经成功打开微信，找到雷子这个联系人，并给他发送了"不切换输入法"这条消息。消息已经成功发送，可以在聊天界面底部看到刚刚发送的消息内容。'}

@@ -100,7 +100,8 @@ class IOSPhoneAgent:
         self._context: list[dict[str, Any]] = []
         self._step_count = 0
 
-    def run(self, task: str,isrecord:bool=True) -> str:
+    def run(self, task: str,isrecord:bool=True,save_screenshot:bool=False,
+            path:str="") -> str:
         """
         Run the agent to complete a task.
 
@@ -114,14 +115,16 @@ class IOSPhoneAgent:
         self._step_count = 0
 
         # First step with user prompt
-        result = self._execute_step(task, is_first=True,isrecord=isrecord)
+        result = self._execute_step(task, is_first=True,isrecord=isrecord,save_screenshot=save_screenshot,
+                                    path=path,count=self._step_count)
         if isrecord:
             if result.finished:
                 return result.message or "Task completed"
 
             # Continue until finished or max steps reached
             while self._step_count < self.agent_config.max_steps:
-                result = self._execute_step(is_first=False,isrecord=isrecord)
+                result = self._execute_step(is_first=False,isrecord=isrecord,save_screenshot=save_screenshot,
+                                    path=path,count=self._step_count)
 
                 if result.finished:
                     return result.message or "Task completed"
@@ -160,11 +163,16 @@ class IOSPhoneAgent:
         self._context = []
         self._step_count = 0
 
-    def _execute_step_record(self, action: str | None) -> StepResult:
+    def _execute_step_record(self, action: str | None, save_screenshot:bool = True,
+            path:str = None, count:int=0) -> StepResult:
+
         screenshot = get_screenshot(
             wda_url=self.agent_config.wda_url,
             session_id=self.agent_config.session_id,
             device_id=self.agent_config.device_id,
+            save_screenshot=save_screenshot,
+            path=path,
+            count=count,
         )
         try:
             action = ast.literal_eval(action)
@@ -191,7 +199,9 @@ class IOSPhoneAgent:
             )
 
     def _execute_step(
-        self, user_prompt: str | None = None, is_first: bool = False,isrecord:bool = True
+        self, user_prompt: str | None = None, is_first: bool = False,isrecord:bool = True,
+           save_screenshot:bool = True,
+            path:str = None, count:int=0
     ) -> StepResult:
         """Execute a single step of the agent loop."""
         self._step_count += 1
@@ -201,6 +211,8 @@ class IOSPhoneAgent:
             wda_url=self.agent_config.wda_url,
             session_id=self.agent_config.session_id,
             device_id=self.agent_config.device_id,
+            save_screenshot=save_screenshot,
+            path=path,count=count
         )
         current_app = get_current_app(
             wda_url=self.agent_config.wda_url, session_id=self.agent_config.session_id

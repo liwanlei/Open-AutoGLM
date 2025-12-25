@@ -81,7 +81,8 @@ class PhoneAgent:
         self._context: list[dict[str, Any]] = []
         self._step_count = 0
 
-    def run(self, task: str,isrecord:bool=True) -> str:
+    def run(self, task: str,isrecord:bool=True,
+            save_screenshot:bool=False,path:str="") -> str:
         """
         Run the agent to complete a task.
 
@@ -96,11 +97,15 @@ class PhoneAgent:
 
         # First step with user prompt
         if isrecord:
-            result = self._execute_step(task, is_first=True,isrecord=isrecord)
+            result = self._execute_step(task, is_first=True,
+                                        isrecord=isrecord,save_screenshot=save_screenshot,
+                                        path=path)
             if result.finished:
                 return result.message or "Task completed"
             while self._step_count < self.agent_config.max_steps:
-                result = self._execute_step(is_first=False,isrecord=isrecord)
+                result = self._execute_step(is_first=False,isrecord=isrecord,
+                                            save_screenshot=save_screenshot,
+                                        path=path)
 
                 if result.finished:
                     return result.message or "Task completed"
@@ -108,8 +113,11 @@ class PhoneAgent:
             print("执行回放")
             try:
                 allaction=read_txt_without_newline()
+                conut=0
                 for action in allaction:
-                    self._execute_step_record(action=action)
+                    conut+=1
+                    self._execute_step_record(action=action,save_screenshot=save_screenshot,
+                                        path=path,conut=conut)
             except Exception as e:
                 print(e)
                 print("回放执行失败")
@@ -139,9 +147,13 @@ class PhoneAgent:
         self._context = []
         self._step_count = 0
 
-    def _execute_step_record(self,action: str | None) -> StepResult:
+    def _execute_step_record(self,action: str | None,
+                             save_screenshot:bool,
+                                        path:str,conut:int) -> StepResult:
         device_factory = get_device_factory()
-        screenshot = device_factory.get_screenshot(self.agent_config.device_id)
+        screenshot = device_factory.get_screenshot(self.agent_config.device_id,
+                                                   save_screenshot=save_screenshot,path=path,
+                                                   count=conut)
         action= ast.literal_eval(action)
         try:
             result = self.action_handler.execute(
@@ -163,14 +175,18 @@ class PhoneAgent:
         )
 
     def _execute_step(
-        self, user_prompt: str | None = None, is_first: bool = False,isrecord: bool = True
+        self, user_prompt: str | None = None, is_first: bool = False,isrecord: bool = True,
+            save_screenshot:bool=False,
+            path:str=""
     ) -> StepResult:
         """Execute a single step of the agent loop."""
         self._step_count += 1
 
         # Capture current screen state
         device_factory = get_device_factory()
-        screenshot = device_factory.get_screenshot(self.agent_config.device_id)
+        screenshot = device_factory.get_screenshot(self.agent_config.device_id,
+                                                   save_screenshot=save_screenshot,
+                                                   path=path,count=self._step_count)
         current_app = device_factory.get_current_app(self.agent_config.device_id)
 
         # Build messages
