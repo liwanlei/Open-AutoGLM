@@ -1,5 +1,6 @@
 import os
 
+
 def add_image_to_html_report(image_paths, output_html="report.html", title="AutoGLM测试报告"):
     """
     将一组本地图片路径写入 HTML 报告中。
@@ -8,8 +9,8 @@ def add_image_to_html_report(image_paths, output_html="report.html", title="Auto
     :param output_html: 输出的 HTML 文件名，默认为 'report.html'
     :param title: HTML 页面标题
     """
-    valid_paths = [os.path.join(image_paths, image_path) for image_path in os.listdir(image_paths) if image_path.endswith(".png")]
-
+    valid_paths = [os.path.join(image_paths, image_path) for image_path in os.listdir(image_paths) if
+                   image_path.endswith(".png")]
 
     # 构建 HTML 内容
     html_content = f"""<!DOCTYPE html>

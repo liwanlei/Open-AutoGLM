@@ -43,7 +43,7 @@ def get_current_app(device_id: str | None = None) -> str:
 
 
 def tap(
-    x: int, y: int, device_id: str | None = None, delay: float | None = None
+        x: int, y: int, device_id: str | None = None, delay: float | None = None
 ) -> None:
     """
     Tap at the specified coordinates.
@@ -68,7 +68,7 @@ def tap(
 
 
 def double_tap(
-    x: int, y: int, device_id: str | None = None, delay: float | None = None
+        x: int, y: int, device_id: str | None = None, delay: float | None = None
 ) -> None:
     """
     Double tap at the specified coordinates.
@@ -93,11 +93,11 @@ def double_tap(
 
 
 def long_press(
-    x: int,
-    y: int,
-    duration_ms: int = 3000,
-    device_id: str | None = None,
-    delay: float | None = None,
+        x: int,
+        y: int,
+        duration_ms: int = 3000,
+        device_id: str | None = None,
+        delay: float | None = None,
 ) -> None:
     """
     Long press at the specified coordinates.
@@ -124,13 +124,13 @@ def long_press(
 
 
 def swipe(
-    start_x: int,
-    start_y: int,
-    end_x: int,
-    end_y: int,
-    duration_ms: int | None = None,
-    device_id: str | None = None,
-    delay: float | None = None,
+        start_x: int,
+        start_y: int,
+        end_x: int,
+        end_y: int,
+        duration_ms: int | None = None,
+        device_id: str | None = None,
+        delay: float | None = None,
 ) -> None:
     """
     Swipe from start to end coordinates.
@@ -218,7 +218,7 @@ def home(device_id: str | None = None, delay: float | None = None) -> None:
 
 
 def launch_app(
-    app_name: str, device_id: str | None = None, delay: float | None = None
+        app_name: str, device_id: str | None = None, delay: float | None = None
 ) -> bool:
     """
     Launch an app by name.

@@ -33,17 +33,17 @@ class ActionHandler:
     """
 
     def __init__(
-        self,
-        device_id: str | None = None,
-        confirmation_callback: Callable[[str], bool] | None = None,
-        takeover_callback: Callable[[str], None] | None = None,
+            self,
+            device_id: str | None = None,
+            confirmation_callback: Callable[[str], bool] | None = None,
+            takeover_callback: Callable[[str], None] | None = None,
     ):
         self.device_id = device_id
         self.confirmation_callback = confirmation_callback or self._default_confirmation
         self.takeover_callback = takeover_callback or self._default_takeover
 
     def execute(
-        self, action: dict[str, Any], screen_width: int, screen_height: int
+            self, action: dict[str, Any], screen_width: int, screen_height: int
     ) -> ActionResult:
         """
         Execute an action from the AI model.
@@ -108,7 +108,7 @@ class ActionHandler:
         return handlers.get(action_name)
 
     def _convert_relative_to_absolute(
-        self, element: list[int], screen_width: int, screen_height: int
+            self, element: list[int], screen_width: int, screen_height: int
     ) -> tuple[int, int]:
         """Convert relative coordinates (0-1000) to absolute pixels."""
         x = int(element[0] / 1000 * screen_width)
@@ -265,7 +265,7 @@ class ActionHandler:
         # Handle HDC devices with HarmonyOS-specific keyEvent command
         if device_factory.device_type == DeviceType.HDC:
             hdc_prefix = ["hdc", "-t", self.device_id] if self.device_id else ["hdc"]
-            
+
             # Map common keycodes to HarmonyOS keyEvent codes
             # KEYCODE_ENTER (66) -> 2054 (HarmonyOS Enter key code)
             if keycode == "KEYCODE_ENTER" or keycode == "66":
@@ -346,7 +346,7 @@ def parse_action(response: str) -> dict[str, Any]:
     try:
         response = response.strip()
         if response.startswith('do(action="Type"') or response.startswith(
-            'do(action="Type_Name"'
+                'do(action="Type_Name"'
         ):
             text = response.split("text=", 1)[1][1:-2]
             action = {"_metadata": "do", "action": "Type", "text": text}

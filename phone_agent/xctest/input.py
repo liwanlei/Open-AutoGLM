@@ -24,10 +24,10 @@ def _get_wda_session_url(wda_url: str, session_id: str | None, endpoint: str) ->
 
 
 def type_text(
-    text: str,
-    wda_url: str = "http://localhost:8100",
-    session_id: str | None = None,
-    frequency: int = 60,
+        text: str,
+        wda_url: str = "http://localhost:8100",
+        session_id: str | None = None,
+        frequency: int = 60,
 ) -> None:
     """
     Type text into the currently focused input field.
@@ -62,8 +62,8 @@ def type_text(
 
 
 def clear_text(
-    wda_url: str = "http://localhost:8100",
-    session_id: str | None = None,
+        wda_url: str = "http://localhost:8100",
+        session_id: str | None = None,
 ) -> None:
     """
     Clear text in the currently focused input field.
@@ -86,7 +86,8 @@ def clear_text(
 
         if response.status_code == 200:
             data = response.json()
-            element_id = data.get("value", {}).get("ELEMENT") or data.get("value", {}).get("element-6066-11e4-a52e-4f735466cecf")
+            element_id = data.get("value", {}).get("ELEMENT") or data.get("value", {}).get(
+                "element-6066-11e4-a52e-4f735466cecf")
 
             if element_id:
                 # Clear the element
@@ -104,9 +105,9 @@ def clear_text(
 
 
 def _clear_with_backspace(
-    wda_url: str = "http://localhost:8100",
-    session_id: str | None = None,
-    max_backspaces: int = 100,
+        wda_url: str = "http://localhost:8100",
+        session_id: str | None = None,
+        max_backspaces: int = 100,
 ) -> None:
     """
     Clear text by sending backspace keys.
@@ -135,9 +136,9 @@ def _clear_with_backspace(
 
 
 def send_keys(
-    keys: list[str],
-    wda_url: str = "http://localhost:8100",
-    session_id: str | None = None,
+        keys: list[str],
+        wda_url: str = "http://localhost:8100",
+        session_id: str | None = None,
 ) -> None:
     """
     Send a sequence of keys.
@@ -165,9 +166,9 @@ def send_keys(
 
 
 def press_enter(
-    wda_url: str = "http://localhost:8100",
-    session_id: str | None = None,
-    delay: float = 0.5,
+        wda_url: str = "http://localhost:8100",
+        session_id: str | None = None,
+        delay: float = 0.5,
 ) -> None:
     """
     Press the Enter/Return key.
@@ -182,8 +183,8 @@ def press_enter(
 
 
 def hide_keyboard(
-    wda_url: str = "http://localhost:8100",
-    session_id: str | None = None,
+        wda_url: str = "http://localhost:8100",
+        session_id: str | None = None,
 ) -> None:
     """
     Hide the on-screen keyboard.
@@ -206,8 +207,8 @@ def hide_keyboard(
 
 
 def is_keyboard_shown(
-    wda_url: str = "http://localhost:8100",
-    session_id: str | None = None,
+        wda_url: str = "http://localhost:8100",
+        session_id: str | None = None,
 ) -> bool:
     """
     Check if the on-screen keyboard is currently shown.
@@ -239,8 +240,8 @@ def is_keyboard_shown(
 
 
 def set_pasteboard(
-    text: str,
-    wda_url: str = "http://localhost:8100",
+        text: str,
+        wda_url: str = "http://localhost:8100",
 ) -> None:
     """
     Set the device pasteboard (clipboard) content.
@@ -269,7 +270,7 @@ def set_pasteboard(
 
 
 def get_pasteboard(
-    wda_url: str = "http://localhost:8100",
+        wda_url: str = "http://localhost:8100",
 ) -> str | None:
     """
     Get the device pasteboard (clipboard) content.

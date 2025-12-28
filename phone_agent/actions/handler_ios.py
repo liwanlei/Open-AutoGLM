@@ -39,11 +39,11 @@ class IOSActionHandler:
     """
 
     def __init__(
-        self,
-        wda_url: str = "http://localhost:8100",
-        session_id: str | None = None,
-        confirmation_callback: Callable[[str], bool] | None = None,
-        takeover_callback: Callable[[str], None] | None = None,
+            self,
+            wda_url: str = "http://localhost:8100",
+            session_id: str | None = None,
+            confirmation_callback: Callable[[str], bool] | None = None,
+            takeover_callback: Callable[[str], None] | None = None,
     ):
         self.wda_url = wda_url
         self.session_id = session_id
@@ -51,7 +51,7 @@ class IOSActionHandler:
         self.takeover_callback = takeover_callback or self._default_takeover
 
     def execute(
-        self, action: dict[str, Any], screen_width: int, screen_height: int
+            self, action: dict[str, Any], screen_width: int, screen_height: int
     ) -> ActionResult:
         """
         Execute an action from the AI model.
@@ -116,7 +116,7 @@ class IOSActionHandler:
         return handlers.get(action_name)
 
     def _convert_relative_to_absolute(
-        self, element: list[int], screen_width: int, screen_height: int
+            self, element: list[int], screen_width: int, screen_height: int
     ) -> tuple[int, int]:
         """Convert relative coordinates (0-1000) to absolute pixels."""
         x = int(element[0] / 1000 * screen_width)

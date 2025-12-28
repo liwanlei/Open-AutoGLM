@@ -1,2 +1,2 @@
-step="step"
-stepfilename='step.txt'
+step = "step"
+stepfilename = 'step.txt'

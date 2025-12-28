@@ -225,8 +225,8 @@ def check_model_api(base_url: str, api_key: str, model_name: str) -> bool:
             print("     1. Check your network connection")
             print("     2. Verify the server is responding")
         elif (
-            "Name or service not known" in error_msg
-            or "nodename nor servname" in error_msg
+                "Name or service not known" in error_msg
+                or "nodename nor servname" in error_msg
         ):
             print(f"   Error: Cannot resolve hostname")
             print("   Solution:")

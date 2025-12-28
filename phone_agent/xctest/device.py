@@ -6,7 +6,8 @@ from typing import Optional
 
 from phone_agent.config.apps_ios import APP_PACKAGES_IOS as APP_PACKAGES
 
-SCALE_FACTOR = 3 # 3 for most modern iPhone 
+SCALE_FACTOR = 3  # 3 for most modern iPhone
+
 
 def _get_wda_session_url(wda_url: str, session_id: str | None, endpoint: str) -> str:
     """
@@ -29,7 +30,7 @@ def _get_wda_session_url(wda_url: str, session_id: str | None, endpoint: str) ->
 
 
 def get_current_app(
-    wda_url: str = "http://localhost:8100", session_id: str | None = None
+        wda_url: str = "http://localhost:8100", session_id: str | None = None
 ) -> str:
     """
     Get the currently active app bundle ID and name.
@@ -73,11 +74,11 @@ def get_current_app(
 
 
 def tap(
-    x: int,
-    y: int,
-    wda_url: str = "http://localhost:8100",
-    session_id: str | None = None,
-    delay: float = 1.0,
+        x: int,
+        y: int,
+        wda_url: str = "http://localhost:8100",
+        session_id: str | None = None,
+        delay: float = 1.0,
 ) -> None:
     """
     Tap at the specified coordinates using WebDriver W3C Actions API.
@@ -122,11 +123,11 @@ def tap(
 
 
 def double_tap(
-    x: int,
-    y: int,
-    wda_url: str = "http://localhost:8100",
-    session_id: str | None = None,
-    delay: float = 1.0,
+        x: int,
+        y: int,
+        wda_url: str = "http://localhost:8100",
+        session_id: str | None = None,
+        delay: float = 1.0,
 ) -> None:
     """
     Double tap at the specified coordinates using WebDriver W3C Actions API.
@@ -175,12 +176,12 @@ def double_tap(
 
 
 def long_press(
-    x: int,
-    y: int,
-    duration: float = 3.0,
-    wda_url: str = "http://localhost:8100",
-    session_id: str | None = None,
-    delay: float = 1.0,
+        x: int,
+        y: int,
+        duration: float = 3.0,
+        wda_url: str = "http://localhost:8100",
+        session_id: str | None = None,
+        delay: float = 1.0,
 ) -> None:
     """
     Long press at the specified coordinates using WebDriver W3C Actions API.
@@ -229,14 +230,14 @@ def long_press(
 
 
 def swipe(
-    start_x: int,
-    start_y: int,
-    end_x: int,
-    end_y: int,
-    duration: float | None = None,
-    wda_url: str = "http://localhost:8100",
-    session_id: str | None = None,
-    delay: float = 1.0,
+        start_x: int,
+        start_y: int,
+        end_x: int,
+        end_y: int,
+        duration: float | None = None,
+        wda_url: str = "http://localhost:8100",
+        session_id: str | None = None,
+        delay: float = 1.0,
 ) -> None:
     """
     Swipe from start to end coordinates using WDA dragfromtoforduration endpoint.
@@ -282,9 +283,9 @@ def swipe(
 
 
 def back(
-    wda_url: str = "http://localhost:8100",
-    session_id: str | None = None,
-    delay: float = 1.0,
+        wda_url: str = "http://localhost:8100",
+        session_id: str | None = None,
+        delay: float = 1.0,
 ) -> None:
     """
     Navigate back (swipe from left edge).
@@ -323,9 +324,9 @@ def back(
 
 
 def home(
-    wda_url: str = "http://localhost:8100",
-    session_id: str | None = None,
-    delay: float = 1.0,
+        wda_url: str = "http://localhost:8100",
+        session_id: str | None = None,
+        delay: float = 1.0,
 ) -> None:
     """
     Press the home button.
@@ -351,10 +352,10 @@ def home(
 
 
 def launch_app(
-    app_name: str,
-    wda_url: str = "http://localhost:8100",
-    session_id: str | None = None,
-    delay: float = 1.0,
+        app_name: str,
+        wda_url: str = "http://localhost:8100",
+        session_id: str | None = None,
+        delay: float = 1.0,
 ) -> bool:
     """
     Launch an app by name.
@@ -393,7 +394,7 @@ def launch_app(
 
 
 def get_screen_size(
-    wda_url: str = "http://localhost:8100", session_id: str | None = None
+        wda_url: str = "http://localhost:8100", session_id: str | None = None
 ) -> tuple[int, int]:
     """
     Get the screen dimensions.
@@ -429,10 +430,10 @@ def get_screen_size(
 
 
 def press_button(
-    button_name: str,
-    wda_url: str = "http://localhost:8100",
-    session_id: str | None = None,
-    delay: float = 1.0,
+        button_name: str,
+        wda_url: str = "http://localhost:8100",
+        session_id: str | None = None,
+        delay: float = 1.0,
 ) -> None:
     """
     Press a physical button.

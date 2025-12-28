@@ -22,12 +22,12 @@ class Screenshot:
 
 
 def get_screenshot(
-    wda_url: str = "http://localhost:8100",
-    session_id: str | None = None,
-    device_id: str | None = None,
-    timeout: int = 10,
-        save_screenshot:bool = False,
-            path:str="",count:int = 0
+        wda_url: str = "http://localhost:8100",
+        session_id: str | None = None,
+        device_id: str | None = None,
+        timeout: int = 10,
+        save_screenshot: bool = False,
+        path: str = "", count: int = 0
 ) -> Screenshot:
     """
     Capture a screenshot from the connected iOS device.
@@ -46,13 +46,13 @@ def get_screenshot(
         If both fail, returns a black fallback image.
     """
     # Try WebDriverAgent first (preferred method)
-    screenshot = _get_screenshot_wda(wda_url, session_id, timeout,save_screenshot=save_screenshot,
-                                     path=path,count=count)
+    screenshot = _get_screenshot_wda(wda_url, session_id, timeout, save_screenshot=save_screenshot,
+                                     path=path, count=count)
     if screenshot:
         return screenshot
 
     # Fallback to idevicescreenshot
-    screenshot = _get_screenshot_idevice(device_id, timeout,save_screenshot,path,count)
+    screenshot = _get_screenshot_idevice(device_id, timeout, save_screenshot, path, count)
     if screenshot:
         return screenshot
 
@@ -61,9 +61,9 @@ def get_screenshot(
 
 
 def _get_screenshot_wda(
-    wda_url: str, session_id: str | None, timeout: int,
-        save_screenshot:bool,
-        path:str="",count:int = 0
+        wda_url: str, session_id: str | None, timeout: int,
+        save_screenshot: bool,
+        path: str = "", count: int = 0
 ) -> Screenshot | None:
     """
     Capture screenshot using WebDriverAgent.
@@ -93,7 +93,7 @@ def _get_screenshot_wda(
                 img = Image.open(BytesIO(img_data))
                 width, height = img.size
                 if save_screenshot:
-                    file=os.path.join(tempfile.gettempdir(), str(count)+".png")
+                    file = os.path.join(tempfile.gettempdir(), str(count) + ".png")
                     img.save(file)
                 return Screenshot(
                     base64_data=base64_data,
@@ -111,7 +111,7 @@ def _get_screenshot_wda(
 
 
 def _get_screenshot_idevice(
-    device_id: str | None, timeout: int,save_screenshot:bool,path:str,count:int = 0
+        device_id: str | None, timeout: int, save_screenshot: bool, path: str, count: int = 0
 ) -> Screenshot | None:
     """
     Capture screenshot using idevicescreenshot (libimobiledevice).
@@ -137,7 +137,7 @@ def _get_screenshot_idevice(
             cmd, capture_output=True, text=True, timeout=timeout
         )
         if save_screenshot:
-            file=os.path.join(path, f"{str(count)}.png")
+            file = os.path.join(path, f"{str(count)}.png")
             cmd = ["idevicescreenshot"]
             if device_id:
                 cmd.extend(["-u", device_id])
@@ -199,8 +199,8 @@ def _create_fallback_screenshot(is_sensitive: bool) -> Screenshot:
 
 
 def save_screenshot(
-    screenshot: Screenshot,
-    file_path: str,
+        screenshot: Screenshot,
+        file_path: str,
 ) -> bool:
     """
     Save a screenshot to a file.
@@ -223,9 +223,9 @@ def save_screenshot(
 
 
 def get_screenshot_png(
-    wda_url: str = "http://localhost:8100",
-    session_id: str | None = None,
-    device_id: str | None = None,
+        wda_url: str = "http://localhost:8100",
+        session_id: str | None = None,
+        device_id: str | None = None,
 ) -> bytes | None:
     """
     Get screenshot as PNG bytes.

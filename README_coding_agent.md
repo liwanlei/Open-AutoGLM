@@ -41,20 +41,24 @@ Python 3.10 or higher is required.
 export PATH=${PATH}:~/Downloads/platform-tools
 ```
 
-**Windows:** Add the extracted folder path to your system PATH. Refer to [this tutorial](https://blog.csdn.net/x2584179909/article/details/108319973) if needed.
+**Windows:** Add the extracted folder path to your system PATH. Refer
+to [this tutorial](https://blog.csdn.net/x2584179909/article/details/108319973) if needed.
 
 ### 3. Android Device Setup
 
 Requirements:
+
 - Android 7.0+ device or emulator
 - Developer Mode enabled
 - USB Debugging enabled
 
 **Enable Developer Mode:**
+
 1. Go to `Settings > About Phone > Build Number`
 2. Tap rapidly about 10 times until "Developer mode enabled" appears
 
 **Enable USB Debugging:**
+
 1. Go to `Settings > Developer Options > USB Debugging`
 2. Enable the toggle
 3. Some devices may require a restart
@@ -65,7 +69,8 @@ Requirements:
 
 ### 4. Install ADB Keyboard
 
-Download and install [ADB Keyboard APK](https://github.com/senzhk/ADBKeyBoard/blob/master/ADBKeyboard.apk) on your device.
+Download and install [ADB Keyboard APK](https://github.com/senzhk/ADBKeyBoard/blob/master/ADBKeyboard.apk) on your
+device.
 
 After installation, enable it in `Settings > Input Method` or `Settings > Keyboard List`.
 
@@ -175,14 +180,14 @@ print(result)
 
 ## Environment Variables
 
-| Variable                  | Description               | Default                      |
-|---------------------------|---------------------------|------------------------------|
-| `PHONE_AGENT_BASE_URL`    | Model API URL             | `http://localhost:8000/v1`   |
-| `PHONE_AGENT_MODEL`       | Model name                | `autoglm-phone-9b`           |
-| `PHONE_AGENT_API_KEY`     | API key                   | `EMPTY`                      |
-| `PHONE_AGENT_MAX_STEPS`   | Max steps per task        | `100`                        |
-| `PHONE_AGENT_DEVICE_ID`   | ADB device ID             | (auto-detect)                |
-| `PHONE_AGENT_LANG`        | Language (`cn`/`en`)      | `cn`                         |
+| Variable                | Description          | Default                    |
+|-------------------------|----------------------|----------------------------|
+| `PHONE_AGENT_BASE_URL`  | Model API URL        | `http://localhost:8000/v1` |
+| `PHONE_AGENT_MODEL`     | Model name           | `autoglm-phone-9b`         |
+| `PHONE_AGENT_API_KEY`   | API key              | `EMPTY`                    |
+| `PHONE_AGENT_MAX_STEPS` | Max steps per task   | `100`                      |
+| `PHONE_AGENT_DEVICE_ID` | ADB device ID        | (auto-detect)              |
+| `PHONE_AGENT_LANG`      | Language (`cn`/`en`) | `cn`                       |
 
 ---
 
@@ -197,6 +202,7 @@ adb devices
 ```
 
 Check:
+
 1. USB debugging enabled
 2. USB cable supports data transfer
 3. Authorization popup approved on phone
@@ -205,6 +211,7 @@ Check:
 ### Can Open Apps but Cannot Tap
 
 Enable both in `Settings > Developer Options`:
+
 - **USB Debugging**
 - **USB Debugging (Security Settings)**
 
@@ -243,20 +250,24 @@ PYTHONIOENCODING=utf-8 python main.py ...
 export PATH=${PATH}:~/Downloads/platform-tools
 ```
 
-**Windows:** 将解压后的文件夹路径添加到系统 PATH。可参考[此教程](https://blog.csdn.net/x2584179909/article/details/108319973)。
+**Windows:** 将解压后的文件夹路径添加到系统
+PATH。可参考[此教程](https://blog.csdn.net/x2584179909/article/details/108319973)。
 
 ### 3. 安卓设备配置
 
 要求：
+
 - Android 7.0+ 设备或模拟器
 - 开发者模式已启用
 - USB 调试已启用
 
 **启用开发者模式：**
+
 1. 进入 `设置 > 关于手机 > 版本号`
 2. 连续快速点击约 10 次，直到提示"开发者模式已启用"
 
 **启用 USB 调试：**
+
 1. 进入 `设置 > 开发者选项 > USB 调试`
 2. 开启开关
 3. 部分设备可能需要重启
@@ -377,14 +388,14 @@ print(result)
 
 ## 环境变量
 
-| 变量                        | 描述               | 默认值                        |
-|---------------------------|------------------|----------------------------|
-| `PHONE_AGENT_BASE_URL`    | 模型 API 地址        | `http://localhost:8000/v1` |
-| `PHONE_AGENT_MODEL`       | 模型名称             | `autoglm-phone-9b`         |
-| `PHONE_AGENT_API_KEY`     | API Key          | `EMPTY`                    |
-| `PHONE_AGENT_MAX_STEPS`   | 每个任务最大步数         | `100`                      |
-| `PHONE_AGENT_DEVICE_ID`   | ADB 设备 ID        | (自动检测)                     |
-| `PHONE_AGENT_LANG`        | 语言 (`cn`/`en`)   | `cn`                       |
+| 变量                      | 描述             | 默认值                        |
+|-------------------------|----------------|----------------------------|
+| `PHONE_AGENT_BASE_URL`  | 模型 API 地址      | `http://localhost:8000/v1` |
+| `PHONE_AGENT_MODEL`     | 模型名称           | `autoglm-phone-9b`         |
+| `PHONE_AGENT_API_KEY`   | API Key        | `EMPTY`                    |
+| `PHONE_AGENT_MAX_STEPS` | 每个任务最大步数       | `100`                      |
+| `PHONE_AGENT_DEVICE_ID` | ADB 设备 ID      | (自动检测)                     |
+| `PHONE_AGENT_LANG`      | 语言 (`cn`/`en`) | `cn`                       |
 
 ---
 
@@ -399,6 +410,7 @@ adb devices
 ```
 
 检查：
+
 1. USB 调试是否已开启
 2. 数据线是否支持数据传输
 3. 手机上的授权弹窗是否已点击「允许」
@@ -407,6 +419,7 @@ adb devices
 ### 能打开应用但无法点击
 
 在 `设置 > 开发者选项` 中同时启用：
+
 - **USB 调试**
 - **USB 调试（安全设置）**
 
@@ -427,4 +440,5 @@ PYTHONIOENCODING=utf-8 python main.py ...
 
 ## License
 
-This project is for research and learning purposes only. See [Terms of Use](resources/privacy_policy.txt) / [使用条款](resources/privacy_policy.txt).
+This project is for research and learning purposes only.
+See [Terms of Use](resources/privacy_policy.txt) / [使用条款](resources/privacy_policy.txt).

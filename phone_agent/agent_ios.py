@@ -66,11 +66,11 @@ class IOSPhoneAgent:
     """
 
     def __init__(
-        self,
-        model_config: ModelConfig | None = None,
-        agent_config: IOSAgentConfig | None = None,
-        confirmation_callback: Callable[[str], bool] | None = None,
-        takeover_callback: Callable[[str], None] | None = None,
+            self,
+            model_config: ModelConfig | None = None,
+            agent_config: IOSAgentConfig | None = None,
+            confirmation_callback: Callable[[str], bool] | None = None,
+            takeover_callback: Callable[[str], None] | None = None,
     ):
         self.model_config = model_config or ModelConfig()
         self.agent_config = agent_config or IOSAgentConfig()
@@ -100,8 +100,10 @@ class IOSPhoneAgent:
         self._context: list[dict[str, Any]] = []
         self._step_count = 0
 
-    def run(self, task: str,isrecord:bool=True,save_screenshot:bool=False,
-            path:str="") -> str:
+    def run(self, task: str,
+            isrecord: bool = True,
+            save_screenshot: bool = False,
+            path: str = "") -> str:
         """
         Run the agent to complete a task.
 
@@ -115,23 +117,25 @@ class IOSPhoneAgent:
         self._step_count = 0
 
         # First step with user prompt
-        result = self._execute_step(task, is_first=True,isrecord=isrecord,save_screenshot=save_screenshot,
-                                    path=path,count=self._step_count)
+        result = self._execute_step(task, is_first=True,
+                                    isrecord=isrecord,
+                                    save_screenshot=save_screenshot,
+                                    path=path, count=self._step_count)
         if isrecord:
             if result.finished:
                 return result.message or "Task completed"
 
             # Continue until finished or max steps reached
             while self._step_count < self.agent_config.max_steps:
-                result = self._execute_step(is_first=False,isrecord=isrecord,save_screenshot=save_screenshot,
-                                    path=path,count=self._step_count)
+                result = self._execute_step(is_first=False, isrecord=isrecord, save_screenshot=save_screenshot,
+                                            path=path, count=self._step_count)
 
                 if result.finished:
                     return result.message or "Task completed"
         else:
             print("执行回放")
             try:
-                allaction=read_txt_without_newline()
+                allaction = read_txt_without_newline()
                 for action in allaction:
                     self._execute_step_record(action=action)
             except Exception as e:
@@ -163,8 +167,8 @@ class IOSPhoneAgent:
         self._context = []
         self._step_count = 0
 
-    def _execute_step_record(self, action: str | None, save_screenshot:bool = True,
-            path:str = None, count:int=0) -> StepResult:
+    def _execute_step_record(self, action: str | None, save_screenshot: bool = True,
+                             path: str = None, count: int = 0) -> StepResult:
 
         screenshot = get_screenshot(
             wda_url=self.agent_config.wda_url,
@@ -189,31 +193,33 @@ class IOSPhoneAgent:
             # Check if finished
             finished = action.get("_metadata") == "finish" or result.should_finish
 
-
         return StepResult(
-                success=result.success,
-                finished=finished,
-                action=action,
-                thinking='回放',
-                message=result.message or action.get("message"),
-            )
+            success=result.success,
+            finished=finished,
+            action=action,
+            thinking='回放',
+            message=result.message or action.get("message"),
+        )
 
     def _execute_step(
-        self, user_prompt: str | None = None, is_first: bool = False,isrecord:bool = True,
-           save_screenshot:bool = True,
-            path:str = None, count:int=0
+            self, user_prompt: str | None = None,
+            is_first: bool = False,
+            isrecord: bool = True,
+            save_screenshot: bool = True,
+            path: str = None, count: int = 0
     ) -> StepResult:
         """Execute a single step of the agent loop."""
         self._step_count += 1
-
+        #获取当前设备的截图
         # Capture current screen state
         screenshot = get_screenshot(
             wda_url=self.agent_config.wda_url,
             session_id=self.agent_config.session_id,
             device_id=self.agent_config.device_id,
             save_screenshot=save_screenshot,
-            path=path,count=count
+            path=path, count=count
         )
+        #获取当前的app
         current_app = get_current_app(
             wda_url=self.agent_config.wda_url, session_id=self.agent_config.session_id
         )
@@ -233,16 +239,17 @@ class IOSPhoneAgent:
                 )
             )
         else:
+            #获取截图
             screen_info = MessageBuilder.build_screen_info(current_app)
             text_content = f"** Screen Info **\n\n{screen_info}"
-
+            #增加信息
             self._context.append(
                 MessageBuilder.create_user_message(
                     text=text_content, image_base64=screenshot.base64_data
                 )
             )
 
-        # Get model response
+        # 获取模型的结果
         try:
             response = self.model_client.request(self._context)
         except Exception as e:
@@ -256,7 +263,7 @@ class IOSPhoneAgent:
                 message=f"Model error: {e}",
             )
 
-        # Parse action from response
+        # 处理模型返回的数据
         try:
             action = parse_action(response.action)
         except ValueError:

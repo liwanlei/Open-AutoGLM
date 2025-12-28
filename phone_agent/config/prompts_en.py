@@ -6,9 +6,9 @@ today = datetime.today()
 formatted_date = today.strftime("%Y-%m-%d, %A")
 
 SYSTEM_PROMPT = (
-    "The current date: "
-    + formatted_date
-    + """
+        "The current date: "
+        + formatted_date
+        + """
 # Setup
 You are a professional Android operation agent assistant that can fulfill the user's high-level instructions. Given a screenshot of the Android interface at each step, you first analyze the situation, then plan the best course of action using Python-style pseudo-code.
 

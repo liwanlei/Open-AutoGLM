@@ -24,9 +24,9 @@ class Screenshot:
 
 def get_screenshot(device_id: str | None = None,
                    timeout: int = 10,
-                   save_screenshot:bool=False,
-                   path:str=None,
-                   count:int=0) -> Screenshot:
+                   save_screenshot: bool = False,
+                   path: str = None,
+                   count: int = 0) -> Screenshot:
     """
     Capture a screenshot from the connected Android device.
 
@@ -66,7 +66,7 @@ def get_screenshot(device_id: str | None = None,
             timeout=5,
         )
         if save_screenshot:
-            filepath=os.path.join(path, f"{str(count)}.png")
+            filepath = os.path.join(path, f"{str(count)}.png")
             subprocess.run(
                 adb_prefix + ["pull", "/sdcard/tmp.png", filepath],
                 capture_output=True,

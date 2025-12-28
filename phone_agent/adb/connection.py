@@ -217,7 +217,7 @@ class ADBConnection:
         return any(d.device_id == device_id and d.status == "device" for d in devices)
 
     def enable_tcpip(
-        self, port: int = 5555, device_id: str | None = None
+            self, port: int = 5555, device_id: str | None = None
     ) -> tuple[bool, str]:
         """
         Enable TCP/IP debugging on a USB-connected device.

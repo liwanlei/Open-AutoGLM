@@ -46,49 +46,49 @@ class DeviceFactory:
         return self._module
 
     def get_screenshot(self, device_id: str | None = None, timeout: int = 10,
-                       save_screenshot:bool=False,
-                       path:str = None,count:int=0
+                       save_screenshot: bool = False,
+                       path: str = None, count: int = 0
                        ):
         """Get screenshot from device."""
         return self.module.get_screenshot(device_id, timeout, save_screenshot,
-                       path,count)
+                                          path, count)
 
     def get_current_app(self, device_id: str | None = None) -> str:
         """Get current app name."""
         return self.module.get_current_app(device_id)
 
     def tap(
-        self, x: int, y: int, device_id: str | None = None, delay: float | None = None
+            self, x: int, y: int, device_id: str | None = None, delay: float | None = None
     ):
         """Tap at coordinates."""
         return self.module.tap(x, y, device_id, delay)
 
     def double_tap(
-        self, x: int, y: int, device_id: str | None = None, delay: float | None = None
+            self, x: int, y: int, device_id: str | None = None, delay: float | None = None
     ):
         """Double tap at coordinates."""
         return self.module.double_tap(x, y, device_id, delay)
 
     def long_press(
-        self,
-        x: int,
-        y: int,
-        duration_ms: int = 3000,
-        device_id: str | None = None,
-        delay: float | None = None,
+            self,
+            x: int,
+            y: int,
+            duration_ms: int = 3000,
+            device_id: str | None = None,
+            delay: float | None = None,
     ):
         """Long press at coordinates."""
         return self.module.long_press(x, y, duration_ms, device_id, delay)
 
     def swipe(
-        self,
-        start_x: int,
-        start_y: int,
-        end_x: int,
-        end_y: int,
-        duration_ms: int | None = None,
-        device_id: str | None = None,
-        delay: float | None = None,
+            self,
+            start_x: int,
+            start_y: int,
+            end_x: int,
+            end_y: int,
+            duration_ms: int | None = None,
+            device_id: str | None = None,
+            delay: float | None = None,
     ):
         """Swipe from start to end."""
         return self.module.swipe(
@@ -104,7 +104,7 @@ class DeviceFactory:
         return self.module.home(device_id, delay)
 
     def launch_app(
-        self, app_name: str, device_id: str | None = None, delay: float | None = None
+            self, app_name: str, device_id: str | None = None, delay: float | None = None
     ) -> bool:
         """Launch an app."""
         return self.module.launch_app(app_name, device_id, delay)

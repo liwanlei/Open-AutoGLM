@@ -5,7 +5,7 @@ import subprocess
 from typing import Optional
 
 
-def start_clipper_app(device_id:str):
+def start_clipper_app(device_id: str):
     """
     启动 Clipper 应用界面以确保服务运行
     """
@@ -28,6 +28,7 @@ def start_clipper_app(device_id:str):
     except Exception as e:
         print(f"启动 Clipper 应用时发生错误: {e}")
         return False
+
 
 def type_text(text: str, device_id: str | None = None) -> None:
     """
@@ -67,14 +68,13 @@ def type_text(text: str, device_id: str | None = None) -> None:
         capture_output=True,
         text=True)
     subprocess.run(
-        adb_prefix+["shell",
-                    "input",
-                    "keyevent",
-                    "KEYCODE_PASTE"
-                    ],
-    capture_output=True,
-    text=True)
-
+        adb_prefix + ["shell",
+                      "input",
+                      "keyevent",
+                      "KEYCODE_PASTE"
+                      ],
+        capture_output=True,
+        text=True)
 
 
 def clear_text(device_id: str | None = None) -> None:

@@ -127,9 +127,9 @@ def get_timing_config() -> TimingConfig:
 
 
 def update_timing_config(
-    action: ActionTimingConfig | None = None,
-    device: DeviceTimingConfig | None = None,
-    connection: ConnectionTimingConfig | None = None,
+        action: ActionTimingConfig | None = None,
+        device: DeviceTimingConfig | None = None,
+        connection: ConnectionTimingConfig | None = None,
 ) -> None:
     """
     Update the global timing configuration.

@@ -9,7 +9,6 @@ from typing import Optional
 
 from phone_agent.config.timing import TIMING_CONFIG
 
-
 # Global flag to control HDC command output
 _HDC_VERBOSE = os.getenv("HDC_VERBOSE", "false").lower() in ("true", "1", "yes")
 
@@ -254,7 +253,7 @@ class HDCConnection:
         return any(d.device_id == device_id for d in devices)
 
     def enable_tcpip(
-        self, port: int = 5555, device_id: str | None = None
+            self, port: int = 5555, device_id: str | None = None
     ) -> tuple[bool, str]:
         """
         Enable TCP/IP debugging on a USB-connected device.

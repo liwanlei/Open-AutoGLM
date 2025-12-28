@@ -52,7 +52,7 @@ class ModelClient:
 
     def request(self, messages: list[dict[str, Any]]) -> ModelResponse:
         """
-        Send a request to the model.
+        发送请求给模型
 
         Args:
             messages: List of message dictionaries in OpenAI format.
@@ -139,7 +139,7 @@ class ModelClient:
                     print(buffer, end="", flush=True)
                     buffer = ""
 
-        # Calculate total time
+        # 计算耗时
         total_time = time.time() - start_time
 
         # Parse thinking and action from response
@@ -226,7 +226,7 @@ class MessageBuilder:
 
     @staticmethod
     def create_user_message(
-        text: str, image_base64: str | None = None
+            text: str, image_base64: str | None = None
     ) -> dict[str, Any]:
         """
         Create a user message with optional image.

@@ -18,7 +18,6 @@ import os
 import shutil
 import subprocess
 import sys
-from urllib.parse import urlparse
 
 from openai import OpenAI
 
@@ -34,11 +33,11 @@ from phone_agent.until.pathexce import pathexce
 from phone_agent.until.report import add_image_to_html_report
 from phone_agent.xctest import XCTestConnection
 from phone_agent.xctest import list_devices as list_ios_devices
-from phone_agent.until.filetool import create_txt_file,delete_txt_file
+from phone_agent.until.filetool import create_txt_file, delete_txt_file
 
 
 def check_system_requirements(
-    device_type: DeviceType = DeviceType.ADB, wda_url: str = "http://localhost:8100"
+        device_type: DeviceType = DeviceType.ADB, wda_url: str = "http://localhost:8100"
 ) -> bool:
     """
     Check system requirements before running the agent.
@@ -199,7 +198,7 @@ def check_system_requirements(
         print("3. Checking ADB Keyboard...", end=" ")
         try:
             result = subprocess.run(
-                ["adb", "shell", "pm", "list", "packages","-3"],
+                ["adb", "shell", "pm", "list", "packages", "-3"],
                 capture_output=True,
                 text=True,
                 timeout=10,
@@ -325,8 +324,8 @@ def check_model_api(base_url: str, model_name: str, api_key: str = "EMPTY") -> b
             print("     1. Check your network connection")
             print("     2. Verify the server is responding")
         elif (
-            "Name or service not known" in error_msg
-            or "nodename nor servname" in error_msg
+                "Name or service not known" in error_msg
+                or "nodename nor servname" in error_msg
         ):
             print(f"   Error: Cannot resolve hostname")
             print("   Solution:")
@@ -526,7 +525,6 @@ Examples:
         action="store_true",
         help="Task to execute and report results",
     )
-
 
     return parser.parse_args()
 
@@ -740,10 +738,10 @@ def main():
 
     # Run system requirements check before proceeding
     if not check_system_requirements(
-        device_type,
-        wda_url=args.wda_url
-        if device_type == DeviceType.IOS
-        else "http://localhost:8100",
+            device_type,
+            wda_url=args.wda_url
+            if device_type == DeviceType.IOS
+            else "http://localhost:8100",
     ):
         sys.exit(1)
 
@@ -781,6 +779,7 @@ def main():
             verbose=not args.quiet,
             lang=args.lang,
         )
+        print(agent_config)
 
         agent = PhoneAgent(
             model_config=model_config,
@@ -824,21 +823,21 @@ def main():
 
     print("=" * 50)
     if args.report:
-        save_screenshot=True
-        path=pathexce()
+        save_screenshot = True
+        path = pathexce()
     else:
-        save_screenshot=False
-        path=''
+        save_screenshot = False
+        path = ''
     if args.record:
-        isrecord=False
+        isrecord = False
     else:
         delete_txt_file()
-        isrecord=True
+        isrecord = True
         create_txt_file()
     # Run with provided task or enter interactive mode
     if args.task:
         print(f"\nTask: {args.task}\n")
-        result = agent.run(args.task,isrecord,save_screenshot,path)
+        result = agent.run(args.task, isrecord, save_screenshot, path)
         print(f"\nResult: {result}")
         print(f"\n Screenshot: {path}")
     else:
@@ -857,7 +856,7 @@ def main():
                     continue
 
                 print()
-                result = agent.run(task,isrecord,save_screenshot,path)
+                result = agent.run(task, isrecord, save_screenshot, path)
                 print(f"\nResult: {result}\n")
 
                 agent.reset()
@@ -870,9 +869,10 @@ def main():
 
         print(f"\n Screenshot: {path}")
     base_path = os.path.join(os.getcwd(), 'report')
-    report_html=os.path.join(base_path, 'report.html')
-    add_image_to_html_report(image_paths=path,output_html=report_html)
+    report_html = os.path.join(base_path, 'report.html')
+    add_image_to_html_report(image_paths=path, output_html=report_html)
     print(f"\n HTML report: {report_html}")
+
 
 if __name__ == "__main__":
     main()
